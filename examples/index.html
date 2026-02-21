@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Star.js - Demo Portfolio Background</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="content">
+      <h1>Star.js</h1>
+      <p class="subtitle">A library that follows the time of your world.</p>
+
+      <div class="card">
+        <h2>Welcome to your Portfolio</h2>
+        <p>
+          This background automatically detects your local time and adapts the
+          sky accordingly.
+        </p>
+        <div class="controls">
+          <button onclick="changeTheme('night')">Night</button>
+          <button onclick="changeTheme('dawn')">Dawn</button>
+          <button onclick="changeTheme('day')">Day</button>
+          <button onclick="changeTheme('sunset')">Sunset</button>
+          <button onclick="resetTheme()">Auto (Based on Time)</button>
+        </div>
+        <p id="time-display"></p>
+      </div>
+    </div>
+
+    <script src="../src/star.js"></script>
+    <script>
+      // Initialize the library
+      let stars = new StarBackground({
+        starCount: 200,
+        baseSpeed: 0.1,
+      });
+
+      function changeTheme(type) {
+        stars.destroy();
+        stars = new StarBackground({
+          manualTheme: type,
+          starCount: 200,
+        });
+      }
+
+      function resetTheme() {
+        stars.destroy();
+        stars = new StarBackground({
+          starCount: 200,
+        });
+      }
+
+      // Update time display
+      setInterval(() => {
+        const now = new Date();
+        document.getElementById("time-display").innerText =
+          `Current Time: ${now.toLocaleTimeString()}`;
+      }, 1000);
+    </script>
+  </body>
+</html>
