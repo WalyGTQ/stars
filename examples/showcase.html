@@ -240,6 +240,21 @@
             setTimeout(() => { config.starCount = 200; reload(); }, 2000);
         }
 
+        let timeIndex = 0;
+        const times = ['night', 'dawn', 'day', 'sunset'];
+        function toggleAwareness() {
+            timeIndex = (timeIndex + 1) % times.length;
+            config.manualTheme = times[timeIndex];
+            reload();
+            
+            // Highlight the corresponding button in the UI
+            document.querySelectorAll('.theme-btn').forEach(b => {
+                const isMatch = b.innerText.toLowerCase().includes(times[timeIndex]);
+                if (isMatch) b.classList.add('active');
+                else b.classList.remove('active');
+            });
+        }
+
         function reload() {
             if (window.stars && typeof stars.destroy === 'function') {
                 stars.destroy();
