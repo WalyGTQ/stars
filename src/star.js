@@ -321,8 +321,6 @@ class StarBackground {
     }
 }
 
-}
-
 // Export for different environments
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = StarBackground;

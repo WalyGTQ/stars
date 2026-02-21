@@ -241,7 +241,9 @@
         }
 
         function reload() {
-            stars.destroy();
+            if (window.stars && typeof stars.destroy === 'function') {
+                stars.destroy();
+            }
             stars = new StarBackground(config);
         }
 
