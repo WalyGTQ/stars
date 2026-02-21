@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star.js | Ultimate Showcase</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --accent: #00f2fe;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            background: #000; /* Fallback */
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .hero {
+            text-align: center;
+        }
+
+        .badge {
+            background: var(--accent);
+            color: black;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 800;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            display: inline-block;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 7rem);
+            font-weight: 800;
+            line-height: 0.9;
+            margin-bottom: 1rem;
+            background: linear-gradient(to bottom, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .description {
+            font-size: 1.2rem;
+            max-width: 600px;
+            opacity: 0.7;
+            margin-bottom: 3rem;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        .feature-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            border-radius: 30px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent);
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+
+        .theme-selector {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            padding: 10px;
+            border-radius: 50px;
+            display: flex;
+            gap: 5px;
+            border: 1px solid var(--glass-border);
+            z-index: 100;
+        }
+
+        .theme-btn {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 40px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+
+        .theme-btn.active {
+            background: white;
+            color: black;
+        }
+
+        .status-bar {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            padding: 10px 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid var(--glass-border);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            z-index: 100;
+        }
+
+        .accent-dot {
+            height: 8px;
+            width: 8px;
+            background: #00ff00;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 8px;
+            box-shadow: 0 0 10px #00ff00;
+        }
+
+        code {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 768px) {
+            .theme-selector {
+                width: 90%;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="status-bar">
+        <span class="accent-dot"></span> SYSTEM_LIVE: <span id="clock">00:00:00</span>
+    </div>
+
+    <section class="hero">
+        <div class="badge">Star.js v1.0</div>
+        <h1>Dynamic<br>Cosmos</h1>
+        <p class="description">
+            Experience the power of a background that breathes with your timezone. 
+            Scroll down to see the reactive physics and theme engine in action.
+        </p>
+
+        <div class="grid">
+            <div class="feature-card" onclick="setSpeed(0.5)">
+                <h3>Hyper-Speed</h3>
+                <p>Boost the star velocity to create a warp-drive effect for high-energy sections of your portfolio.</p>
+            </div>
+            <div class="feature-card" onclick="setDensity(500)">
+                <h3>Massive Clusters</h3>
+                <p>Instantly spawn hundreds of procedural stars without sacrificing performance or frame rate.</p>
+            </div>
+            <div class="feature-card" onclick="toggleAwareness()">
+                <h3>Time Sync</h3>
+                <p>Watch the palette shift from deep voids to vibrant dawn rays as you simulate different hours.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="theme-selector">
+        <button class="theme-btn active" onclick="updatePreview('auto', this)">Auto Sync</button>
+        <button class="theme-btn" onclick="updatePreview('night', this)">Night Void</button>
+        <button class="theme-btn" onclick="updatePreview('dawn', this)">Ethereal Dawn</button>
+        <button class="theme-btn" onclick="updatePreview('day', this)">Radiant Day</button>
+        <button class="theme-btn" onclick="updatePreview('sunset', this)">Vivid Sunset</button>
+    </div>
+
+    <script src="../src/star.js"></script>
+    <script>
+        let config = {
+            starCount: 200,
+            baseSpeed: 0.1,
+            manualTheme: null
+        };
+
+        let stars = new StarBackground(config);
+
+        function updatePreview(theme, btn) {
+            // UI state
+            document.querySelectorAll('.theme-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            // Logic
+            config.manualTheme = theme === 'auto' ? null : theme;
+            reload();
+        }
+
+        function setSpeed(speed) {
+            config.baseSpeed = speed;
+            reload();
+            setTimeout(() => { config.baseSpeed = 0.1; reload(); }, 2000);
+        }
+
+        function setDensity(count) {
+            config.starCount = count;
+            reload();
+            setTimeout(() => { config.starCount = 200; reload(); }, 2000);
+        }
+
+        function reload() {
+            stars.destroy();
+            stars = new StarBackground(config);
+        }
+
+        // Clock logic
+        setInterval(() => {
+            const now = new Date();
+            document.getElementById('clock').innerText = now.toLocaleTimeString();
+        }, 1000);
+    </script>
+</body>
+</html>
