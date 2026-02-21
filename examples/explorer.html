@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Star.js | Discover the Universe</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background: #000;
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+
+        .overlay {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            pointer-events: none;
+        }
+
+        .instruction-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            max-width: 450px;
+            pointer-events: auto;
+            animation: float 4s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        h2 { font-weight: 600; margin-bottom: 10px; color: #00f2fe; }
+        p { opacity: 0.8; line-height: 1.6; }
+
+        .hint {
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+            background: rgba(0, 242, 254, 0.2);
+            color: #00f2fe;
+            padding: 8px 15px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .time-label {
+            position: fixed;
+            bottom: 2rem;
+            left: 2rem;
+            font-size: 0.9rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="overlay">
+        <div class="instruction-box">
+            <h2>The Living Cosmos</h2>
+            <p>
+                The universe is now interactive. Move your mouse to see the parallax depth. 
+                Keep your cursor still over a celestial body to reveal its secrets.
+            </p>
+            <div class="hint">
+                Hold over a planet or the moon for 3 seconds
+            </div>
+        </div>
+    </div>
+
+    <div class="time-label" id="current-time"></div>
+
+    <script src="../src/star.js"></script>
+    <script>
+        const stars = new StarBackground({
+            starCount: 250,
+            parallaxFactor: 0.05
+        });
+
+        setInterval(() => {
+            document.getElementById('current-time').innerText = `Observatory Time: ${new Date().toLocaleTimeString()}`;
+        }, 1000);
+    </script>
+</body>
+</html>
